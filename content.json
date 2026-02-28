@@ -1,0 +1,103 @@
+{
+  "title": "Daily Growth Feed",
+  "built_at_utc": "2026-02-28T07:00:00Z",
+  "next_build_utc": "2026-03-01T07:00:00Z",
+  "window_hours": 4,
+  "sections": [
+    {
+      "name": "Finance",
+      "items": []
+    },
+    {
+      "name": "World news",
+      "items": []
+    },
+    {
+      "name": "Tech",
+      "items": [
+        {
+          "title": "Obsidian Sync now has a headless client",
+          "url": "https://help.obsidian.md/sync/headless",
+          "source": "Hacker News",
+          "traction": 131,
+          "published": "2026-02-28T16:31:53Z"
+        },
+        {
+          "title": "Verified Spec-Driven Development (VSDD)",
+          "url": "https://gist.github.com/dollspace-gay/d8d3bc3ecf4188df049d7a4726bb2a00",
+          "source": "Hacker News",
+          "traction": 22,
+          "published": "2026-02-28T16:58:54Z"
+        },
+        {
+          "title": "The whole thing was a scam",
+          "url": "https://garymarcus.substack.com/p/the-whole-thing-was-scam",
+          "source": "Hacker News",
+          "traction": 15,
+          "published": "2026-02-28T16:51:49Z"
+        },
+        {
+          "title": "Statement of Sen. Warner on Military Action in Iran",
+          "url": "https://www.warner.senate.gov/public/index.cfm/2026/2/statement-of-sen-warner-on-military-action-in-iran",
+          "source": "Hacker News",
+          "traction": 12,
+          "published": "2026-02-28T16:58:43Z"
+        },
+        {
+          "title": "ICE Is Expanding Across the US at Breakneck Speed. Here's Where It's Going Next",
+          "url": "https://www.wired.com/story/ice-expansion-across-us-at-heres-where-its-going-next/",
+          "source": "Hacker News",
+          "traction": 9,
+          "published": "2026-02-28T17:04:32Z"
+        },
+        {
+          "title": "Ask HN: Why People Support Anthropic?",
+          "url": "https://news.ycombinator.com/item?id=47197579",
+          "source": "Hacker News",
+          "traction": 9,
+          "published": "2026-02-28T16:57:48Z"
+        },
+        {
+          "title": "Show HN: SQLite for Rivet Actors – one database per agent, tenant, or document",
+          "url": "https://github.com/rivet-dev/rivet",
+          "source": "Hacker News",
+          "traction": 9,
+          "published": "2026-02-28T16:11:58Z"
+        },
+        {
+          "title": "Anthropic vs. DoD: \"Any lawful use\" is a fight about control",
+          "url": "https://news.ycombinator.com/item?id=47197243",
+          "source": "Hacker News",
+          "traction": 8,
+          "published": "2026-02-28T16:30:32Z"
+        },
+        {
+          "title": "You Shouldn't Exercise to Lose Weight",
+          "url": "https://time.com/6138809/should-you-exercise-to-lose-weight/",
+          "source": "Hacker News",
+          "traction": 8,
+          "published": "2026-02-28T16:01:09Z"
+        },
+        {
+          "title": "I coded a game to turn the Epstein Files into Mad Libs. It's hilarious",
+          "url": "https://www.epstein-isi.net/",
+          "source": "Hacker News",
+          "traction": 7,
+          "published": "2026-02-28T16:08:47Z"
+        }
+      ]
+    },
+    {
+      "name": "Automotive / Motorcycle",
+      "items": []
+    },
+    {
+      "name": "Portugal main news",
+      "items": []
+    }
+  ],
+  "sources": [
+    "Hacker News (Algolia API)",
+    "Reddit public JSON endpoints"
+  ]
+}
