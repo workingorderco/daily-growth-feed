@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Daily Growth Feed</title>
+
+  <!-- iOS Home Screen web-app (opens like an app) -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+  <style>
+    body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;background:#0b0f16;color:#e7edf7}
+    .wrap{max-width:900px;margin:0 auto;padding:16px}
+    .card{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:14px;margin:12px 0}
+    h1{font-size:18px;margin:6px 0 2px}
+    h2{font-size:14px;margin:0 0 10px;color:#9fb0c9}
+    .muted{color:#9fb0c9;font-size:12px}
+    a{color:#6aa9ff;text-decoration:none}
+    li{margin:10px 0}
+    .pill{display:inline-block;padding:4px 10px;border:1px solid rgba(255,255,255,.12);border-radius:999px;margin-right:8px;color:#9fb0c9;font-size:12px}
+    button{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.10);color:#e7edf7;border-radius:12px;padding:10px 12px}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="card">
+      <div class="muted" id="stamp">Loading…</div>
+      <h1>Daily Growth Feed</h1>
+      <div class="muted">
+        <span class="pill">Refresh: 07:00 UTC daily</span>
+        <span class="pill">Window: last 4 hours</span>
+        <span class="pill">30 headlines</span>
+      </div>
+      <div style="margin-top:12px;display:flex;gap:10px;flex-wrap:wrap">
+        <button onclick="location.reload()">Refresh (reload)</button>
+      </div>
+    </div>
+
+    <div id="sections"></div>
+
+    <div class="card">
+      <h2>Sources</h2>
+      <div class="muted" id="sources">—</div>
+    </div>
+  </div>
+
+<script>
+async function load(){
+  try{
+    // cache-bust to force latest daily build
+    const res = await fetch("./content.json?v=" + Date.now(), { cache: "no-store" });
+    const data = await res.json();
+
+    document.getElementById("stamp").textContent =
+      `Built at: ${data.built_at_utc} • Next build: ${data.next_build_utc}`;
+
+    const container = document.getElementById("sections");
+    container.innerHTML = "";
+
+    for(const section of data.sections){
+      const div = document.createElement("div");
+      div.className = "card";
+      div.innerHTML = `
+        <h2>${section.name} (${section.items.length})</h2>
+        <ol>
+          ${section.items.map(it => `
+            <li>
+              <a href="${it.url}" target="_blank" rel="noreferrer">${it.title}</a>
+              <div class="muted">${it.source} • traction: ${it.traction} • ${it.published || "—"}</div>
+            </li>
+          `).join("")}
+        </ol>
+      `;
+      container.appendChild(div);
+    }
+
+    document.getElementById("sources").textContent = (data.sources || []).join(", ");
+  }catch(e){
+    document.getElementById("stamp").textContent = "Waiting for first build (content.json not found yet)";
+    document.getElementById("sources").textContent = "After GitHub Actions runs, this will populate.";
+  }
+}
+load();
+</script>
+</body>
+</html>
