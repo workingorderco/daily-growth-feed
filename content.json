@@ -1,103 +1,252 @@
 {
-  "title": "Daily Growth Feed",
+  "title": "Daily Growth Feed (Balanced)",
   "built_at_utc": "2026-02-28T07:00:00Z",
-  "next_build_utc": "2026-03-01T07:00:00Z",
-  "window_hours": 4,
+  "next_build_utc": "2026-03-01T07:00:00",
+  "policy": {
+    "preferred_window_hours": 12,
+    "fallback_window_hours": 24,
+    "hard_max_age_hours": 48,
+    "mode": "balanced"
+  },
   "sections": [
     {
       "name": "Finance",
-      "items": []
+      "items": [
+        {
+          "title": "US and Israel launch ‘massive’ strikes on Iran as Trump calls for regime change",
+          "url": "https://www.ft.com/content/2fb3447b-7ff7-4f9a-9068-05cfb4bf4138",
+          "source": "FT Home (UK)",
+          "traction": 61.0,
+          "published": "2026-02-28T13:18:14Z"
+        },
+        {
+          "title": "Insurers to cancel policies and raise prices for ships in Gulf and Strait of Hormuz",
+          "url": "https://www.ft.com/content/2dc114d0-5bb3-4fae-b538-9a050954549a",
+          "source": "FT Home (UK)",
+          "traction": 61.0,
+          "published": "2026-02-28T16:07:08Z"
+        },
+        {
+          "title": "Trump and Netanyahu go for Iran’s jugular",
+          "url": "https://www.ft.com/content/1cd2ed35-869c-48c0-8899-b25ad99be066",
+          "source": "FT Home (UK)",
+          "traction": 61.0,
+          "published": "2026-02-28T14:30:18Z"
+        },
+        {
+          "title": "Military briefing: The US-Israeli strikes and Iran’s retaliation",
+          "url": "https://www.ft.com/content/be65f1b1-ed37-4821-b024-10ec7a198f25",
+          "source": "FT Home (UK)",
+          "traction": 61.0,
+          "published": "2026-02-28T16:25:36Z"
+        },
+        {
+          "title": "Tehran started its working week. Then came the explosions",
+          "url": "https://www.ft.com/content/97db4b54-ebd6-4210-8f66-6917f157823a",
+          "source": "FT Home (UK)",
+          "traction": 61.0,
+          "published": "2026-02-28T14:53:01Z"
+        }
+      ]
     },
     {
       "name": "World news",
-      "items": []
+      "items": [
+        {
+          "title": "Luxury Dubai hotel hit as Iran launches retaliatory strikes across region",
+          "url": "https://www.bbc.com/news/articles/c204px4zddro?at_medium=RSS&at_campaign=rss",
+          "source": "BBC World",
+          "traction": 65.0,
+          "published": "2026-02-28T18:15:02Z"
+        },
+        {
+          "title": "What we know so far: Supreme Leader's compound hit and Iran's retaliatory strikes",
+          "url": "https://www.bbc.com/news/articles/cx2dyz6p3weo?at_medium=RSS&at_campaign=rss",
+          "source": "BBC World",
+          "traction": 65.0,
+          "published": "2026-02-28T17:32:26Z"
+        },
+        {
+          "title": "Inside Iran, panic as strikes hit but for some it's a moment of relief",
+          "url": "https://www.bbc.com/news/articles/c05v8jzjn40o?at_medium=RSS&at_campaign=rss",
+          "source": "BBC World",
+          "traction": 63.0,
+          "published": "2026-02-28T15:36:27Z"
+        },
+        {
+          "title": "Bowen: A dangerous moment, but US and Israel see opportunity not to be missed",
+          "url": "https://www.bbc.com/news/articles/cn0z9012291o?at_medium=RSS&at_campaign=rss",
+          "source": "BBC World",
+          "traction": 63.0,
+          "published": "2026-02-28T12:17:17Z"
+        },
+        {
+          "title": "How the world has reacted to US and Israeli strikes on Iran",
+          "url": "https://www.bbc.com/news/articles/c5yj9kr31y7o?at_medium=RSS&at_campaign=rss",
+          "source": "BBC World",
+          "traction": 63.0,
+          "published": "2026-02-28T16:00:32Z"
+        }
+      ]
     },
     {
       "name": "Tech",
       "items": [
         {
-          "title": "Obsidian Sync now has a headless client",
-          "url": "https://help.obsidian.md/sync/headless",
+          "title": "The whole thing was a scam",
+          "url": "https://garymarcus.substack.com/p/the-whole-thing-was-scam",
           "source": "Hacker News",
-          "traction": 131,
-          "published": "2026-02-28T16:31:53Z"
+          "traction": 54.9,
+          "published": "2026-02-28T16:51:49Z"
         },
         {
           "title": "Verified Spec-Driven Development (VSDD)",
           "url": "https://gist.github.com/dollspace-gay/d8d3bc3ecf4188df049d7a4726bb2a00",
           "source": "Hacker News",
-          "traction": 22,
+          "traction": 53.3,
           "published": "2026-02-28T16:58:54Z"
-        },
-        {
-          "title": "The whole thing was a scam",
-          "url": "https://garymarcus.substack.com/p/the-whole-thing-was-scam",
-          "source": "Hacker News",
-          "traction": 15,
-          "published": "2026-02-28T16:51:49Z"
         },
         {
           "title": "Statement of Sen. Warner on Military Action in Iran",
           "url": "https://www.warner.senate.gov/public/index.cfm/2026/2/statement-of-sen-warner-on-military-action-in-iran",
           "source": "Hacker News",
-          "traction": 12,
+          "traction": 49.8,
           "published": "2026-02-28T16:58:43Z"
-        },
-        {
-          "title": "ICE Is Expanding Across the US at Breakneck Speed. Here's Where It's Going Next",
-          "url": "https://www.wired.com/story/ice-expansion-across-us-at-heres-where-its-going-next/",
-          "source": "Hacker News",
-          "traction": 9,
-          "published": "2026-02-28T17:04:32Z"
         },
         {
           "title": "Ask HN: Why People Support Anthropic?",
           "url": "https://news.ycombinator.com/item?id=47197579",
           "source": "Hacker News",
-          "traction": 9,
+          "traction": 49.3,
           "published": "2026-02-28T16:57:48Z"
         },
         {
-          "title": "Show HN: SQLite for Rivet Actors – one database per agent, tenant, or document",
-          "url": "https://github.com/rivet-dev/rivet",
+          "title": "ICE Is Expanding Across the US at Breakneck Speed. Here's Where It's Going Next",
+          "url": "https://www.wired.com/story/ice-expansion-across-us-at-heres-where-its-going-next/",
           "source": "Hacker News",
-          "traction": 9,
-          "published": "2026-02-28T16:11:58Z"
+          "traction": 48.9,
+          "published": "2026-02-28T17:04:32Z"
         },
         {
-          "title": "Anthropic vs. DoD: \"Any lawful use\" is a fight about control",
-          "url": "https://news.ycombinator.com/item?id=47197243",
+          "title": "Show HN: Nugx.org – A Fresh Nuget Experience",
+          "url": "https://nugx.org",
           "source": "Hacker News",
-          "traction": 8,
-          "published": "2026-02-28T16:30:32Z"
+          "traction": 48.7,
+          "published": "2026-02-28T17:23:47Z"
         },
         {
-          "title": "You Shouldn't Exercise to Lose Weight",
-          "url": "https://time.com/6138809/should-you-exercise-to-lose-weight/",
+          "title": "Show HN: I built a Canva-like editor at 14 – it ranked #4 organically in 30 days",
+          "url": "https://news.ycombinator.com/item?id=47197812",
           "source": "Hacker News",
-          "traction": 8,
-          "published": "2026-02-28T16:01:09Z"
+          "traction": 48.7,
+          "published": "2026-02-28T17:19:52Z"
         },
         {
-          "title": "I coded a game to turn the Epstein Files into Mad Libs. It's hilarious",
-          "url": "https://www.epstein-isi.net/",
+          "title": "Ask HN: If AI boosts productivity so much, why would a company lay anyone off?",
+          "url": "https://news.ycombinator.com/item?id=47198459",
           "source": "Hacker News",
-          "traction": 7,
-          "published": "2026-02-28T16:08:47Z"
+          "traction": 48.5,
+          "published": "2026-02-28T18:13:09Z"
+        },
+        {
+          "title": "Suspected insiders make over $1.2M by betting on U.S.'s Iran strike",
+          "url": "https://www.coindesk.com/markets/2026/02/28/suspected-insiders-make-over-usd1-2-million-on-polymarket-ahead-of-u-s-strike-on-iran",
+          "source": "Hacker News",
+          "traction": 48.5,
+          "published": "2026-02-28T17:27:38Z"
+        },
+        {
+          "title": "Neanderthal males and human females had babies together, ancient DNA reveals",
+          "url": "https://www.washingtonpost.com/science/2026/02/26/neanderthal-mating-humans/",
+          "source": "Hacker News",
+          "traction": 48.5,
+          "published": "2026-02-28T17:25:14Z"
         }
       ]
     },
     {
       "name": "Automotive / Motorcycle",
-      "items": []
+      "items": [
+        {
+          "title": "Renault Megane Coupe – the retro bargain you forgot you wanted",
+          "url": "https://www.autocar.co.uk/car-news/used-cars/renault-megane-coupe-%E2%80%93-retro-bargain-you-forgot-you-wanted",
+          "source": "Autocar",
+          "traction": 58.0,
+          "published": "2026-02-28T08:00:00Z"
+        },
+        {
+          "title": "Massimo Frascella exclusive: The TT super-fan reinventing Audi",
+          "url": "https://www.autocar.co.uk/car-news/features/massimo-frascella-exclusive-tt-super-fan-reinventing-audi",
+          "source": "Autocar",
+          "traction": 58.0,
+          "published": "2026-02-28T07:00:00Z"
+        },
+        {
+          "title": "BMW M2 to gain rear-biased four-wheel drive",
+          "url": "https://www.autocar.co.uk/car-news/new-cars/bmw-m2-gain-rear-biased-four-wheel-drive",
+          "source": "Autocar",
+          "traction": 40.52,
+          "published": "2026-02-27T11:31:26Z"
+        },
+        {
+          "title": "The worn-out button in my A2 sums up our fight with technology",
+          "url": "https://www.autocar.co.uk/opinion/used-cars/worn-out-button-my-a2-sums-our-fight-technology",
+          "source": "Autocar",
+          "traction": 39.0,
+          "published": "2026-02-27T12:00:00Z"
+        },
+        {
+          "title": "Ineos Quartermaster",
+          "url": "https://www.autocar.co.uk/car-review/ineos/grenadier-quartermaster",
+          "source": "Autocar",
+          "traction": 37.81,
+          "published": "2026-02-27T10:48:39Z"
+        }
+      ]
     },
     {
       "name": "Portugal main news",
-      "items": []
+      "items": [
+        {
+          "title": "Governo propõe Cartaxo Alves para Chefe do Estado-Maior-General das Forças Armadas",
+          "url": "https://www.rtp.pt/noticias/pais/governo-propoe-cartaxo-alves-para-chefe-do-estado-maior-general-das-forcas-armadas_n1722155",
+          "source": "RTP País",
+          "traction": 62.0,
+          "published": "2026-02-28T11:12:58Z"
+        },
+        {
+          "title": "Criança de 12 anos tem duas doenças raras",
+          "url": "https://www.rtp.pt/noticias/pais/crianca-de-12-anos-tem-duas-doencas-raras_v1722272",
+          "source": "RTP País",
+          "traction": 60.0,
+          "published": "2026-02-28T14:21:47Z"
+        },
+        {
+          "title": "Protestos no Porto contra o pacote laboral",
+          "url": "https://www.rtp.pt/noticias/pais/protestos-no-porto-contra-o-pacote-laboral_v1722265",
+          "source": "RTP País",
+          "traction": 60.0,
+          "published": "2026-02-28T14:10:47Z"
+        },
+        {
+          "title": "Falta de mão de obra preocupa autarcas",
+          "url": "https://www.rtp.pt/noticias/pais/falta-de-mao-de-obra-preocupa-autarcas_v1722264",
+          "source": "RTP País",
+          "traction": 60.0,
+          "published": "2026-02-28T14:09:48Z"
+        },
+        {
+          "title": "Recluso morre no Linhó após agressão do companheiro de cela",
+          "url": "https://www.rtp.pt/noticias/pais/recluso-morre-no-linho-apos-agressao-do-companheiro-de-cela_n1722247",
+          "source": "RTP País",
+          "traction": 60.0,
+          "published": "2026-02-28T12:52:20Z"
+        }
+      ]
     }
   ],
   "sources": [
-    "Hacker News (Algolia API)",
-    "Reddit public JSON endpoints"
+    "RSS feeds (multi-outlet)",
+    "Hacker News Search API (Algolia)"
   ]
 }
