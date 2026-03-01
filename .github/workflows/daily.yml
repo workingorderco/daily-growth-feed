@@ -20,13 +20,21 @@ jobs:
         with:
           python-version: "3.11"
 
+      - name: Install dependencies
+        run: pip install anthropic
+
       - name: Build content.json
         run: python scripts/build_feed.py
 
-      - name: Commit + push content.json
+      - name: Generate summary.json
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: python scripts/generate_summary_ci.py
+
+      - name: Commit + push content.json and summary.json
         run: |
           git config user.name "daily-growth-feed-bot"
           git config user.email "bot@users.noreply.github.com"
-          git add content.json
+          git add content.json summary.json
           git commit -m "daily update" || echo "No changes"
           git push
