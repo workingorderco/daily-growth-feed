@@ -1,0 +1,7 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(node -e \"const d=require\\(''./content.json''\\); d.sections.forEach\\(s=>console.log\\(s.name,''-'',s.items.length,''items''\\)\\)\")"
+    ]
+  }
+}

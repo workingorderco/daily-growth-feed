@@ -4,84 +4,790 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Daily Growth Feed</title>
-
-  <!-- iOS Home Screen web-app (opens like an app) -->
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="theme-color" content="#0A0C10">
 
   <style>
-    body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;background:#0b0f16;color:#e7edf7}
-    .wrap{max-width:900px;margin:0 auto;padding:16px}
-    .card{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:14px;margin:12px 0}
-    h1{font-size:18px;margin:6px 0 2px}
-    h2{font-size:14px;margin:0 0 10px;color:#9fb0c9}
-    .muted{color:#9fb0c9;font-size:12px}
-    a{color:#6aa9ff;text-decoration:none}
-    li{margin:10px 0}
-    .pill{display:inline-block;padding:4px 10px;border:1px solid rgba(255,255,255,.12);border-radius:999px;margin-right:8px;color:#9fb0c9;font-size:12px}
-    button{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.10);color:#e7edf7;border-radius:12px;padding:10px 12px}
+    /* ── Reset ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    /* ── Design tokens — Muted Steel Night ── */
+    :root {
+      --bg-0:          #0A0C10;
+      --bg-1:          #141922;
+      --bg-2:          #1C2430;
+      --text-primary:  #E5E7EB;
+      --text-secondary:#9CA3AF;
+      --text-muted:    #6B7280;
+      --accent-1:      #A5B4FC;
+      --accent-2:      #7C93D1;
+      --accent-3:      #5F7ABF;
+      --border-soft:   rgba(165,180,252,0.12);
+      --border-strong: rgba(165,180,252,0.22);
+      --r:             16px;
+      --r-sm:          10px;
+      --r-pill:        999px;
+    }
+
+    /* ── Base ── */
+    body {
+      background: var(--bg-0);
+      color: var(--text-primary);
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+      line-height: 1.55;
+      -webkit-font-smoothing: antialiased;
+      min-height: 100dvh;
+    }
+
+    .wrap {
+      max-width: 820px;
+      margin: 0 auto;
+      padding: 16px 14px 64px;
+    }
+    @media (min-width: 600px) { .wrap { padding: 24px 22px 80px; } }
+
+    /* ── Card ── */
+    .card {
+      background: var(--bg-1);
+      border: 1px solid var(--border-soft);
+      border-radius: var(--r);
+      padding: 16px;
+      margin: 8px 0;
+    }
+    @media (min-width: 600px) { .card { padding: 20px; margin: 10px 0; } }
+
+    /* ── Micro helpers ── */
+    .label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .10em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+    a { color: var(--accent-2); text-decoration: none; }
+    a:hover { color: var(--accent-1); text-decoration: underline; }
+
+    /* ────────────────────────────────────
+       HEADER CARD
+    ──────────────────────────────────── */
+    .header-card { background: var(--bg-1); }
+
+    .header-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .header-eyebrow {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .10em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 5px;
+    }
+
+    .page-title {
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: -.018em;
+      line-height: 1.2;
+      color: var(--text-primary);
+    }
+
+    /* Live pill — muted, no glow */
+    .live-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: rgba(107,114,128,.07);
+      border: 1px solid rgba(107,114,128,.18);
+      border-radius: var(--r-pill);
+      padding: 4px 10px;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: .05em;
+      color: var(--text-muted);
+      flex-shrink: 0;
+    }
+    .live-dot {
+      width: 5px; height: 5px;
+      border-radius: 50%;
+      background: var(--text-muted);
+      animation: fade-pulse 3.5s ease-in-out infinite;
+    }
+    @keyframes fade-pulse {
+      0%,100% { opacity: .75; }
+      50%      { opacity: .25; }
+    }
+
+    /* Timestamp chips */
+    .ts-row {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-top: 12px;
+    }
+    .ts-chip {
+      font-size: 11px;
+      color: var(--text-muted);
+      background: transparent;
+      border: 1px solid var(--border-soft);
+      border-radius: 7px;
+      padding: 3px 9px;
+      white-space: nowrap;
+    }
+    .ts-chip .val { color: var(--text-secondary); }
+
+    /* ── Buttons ── */
+    .actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 14px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: transparent;
+      border: 1px solid var(--border-soft);
+      color: var(--text-secondary);
+      border-radius: var(--r-sm);
+      padding: 10px 15px;
+      font-size: 13px;
+      font-family: inherit;
+      cursor: pointer;
+      min-height: 44px;
+      transition: background .15s, border-color .15s, color .15s, transform .1s;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+    }
+    .btn:hover  { border-color: rgba(229,231,235,.20); color: var(--text-primary); }
+    .btn:active { transform: translateY(1px); opacity: .85; }
+
+    /* Primary — accent outline, accent text, hover tint fill */
+    .btn-primary {
+      border-color: var(--border-strong);
+      color: var(--accent-1);
+    }
+    .btn-primary:hover {
+      background: rgba(165,180,252,0.07);
+      border-color: var(--accent-3);
+      color: var(--accent-1);
+    }
+
+    /* ────────────────────────────────────
+       INSIGHT CARD
+    ──────────────────────────────────── */
+    .insight-card {
+      background: var(--bg-2);
+      border: 1px solid var(--border-soft);
+      border-radius: var(--r);
+    }
+
+    .insight-eyebrow {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 16px;
+    }
+
+    /* Global thesis — dominant headline */
+    .insight-theme {
+      font-size: clamp(1.6rem, 2.4vw, 2.2rem);
+      font-weight: 700;
+      line-height: 1.25;
+      letter-spacing: -0.4px;
+      color: var(--text-primary);
+    }
+
+    /* Thesis underline bar — standalone element */
+    .thesis-bar {
+      height: 3px;
+      width: 48%;
+      background: var(--accent-1);
+      opacity: 0.7;
+      border-radius: 999px;
+      margin: 14px 0 14px;
+    }
+
+    /* Confidence indicator */
+    .confidence-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 22px;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .09em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+    .confidence-badge {
+      border: 1px solid var(--accent-1);
+      color: var(--accent-1);
+      background: transparent;
+      border-radius: 999px;
+      padding: 3px 10px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: .02em;
+      text-transform: none;
+    }
+
+    /* ── Metrics row ── */
+    .metrics {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 22px;
+    }
+    @media (min-width: 640px) {
+      .metrics { flex-direction: row; }
+      .metric   { flex: 1 1 0; }
+    }
+
+    .metric {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      background: var(--bg-1);
+      border: 1px solid var(--border-soft);
+      border-radius: var(--r-sm);
+      padding: 12px 13px;
+    }
+
+    .metric-icon {
+      flex-shrink: 0;
+      width: 26px; height: 26px;
+      border-radius: 7px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 1px;
+    }
+    .metric-icon.mood { background: rgba(165,180,252,.08); }
+    .metric-icon.risk { background: rgba(248,113,113,.07); }
+    .metric-icon.opp  { background: rgba(110,231,183,.07); }
+
+    .metric-body { flex: 1; min-width: 0; }
+
+    .metric-key {
+      font-size: 9.5px;
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      margin-bottom: 5px;
+      color: var(--text-muted);
+    }
+
+    .metric-val {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-primary);
+      line-height: 1.45;
+    }
+
+    /* ── Key points — ordered list, accent numbers ── */
+    .kp-eyebrow {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 10px;
+    }
+
+    .kp-list {
+      list-style: none;
+    }
+
+    .kp-item {
+      display: flex;
+      align-items: baseline;
+      gap: 13px;
+      padding: 13px 0;
+      border-bottom: 1px solid var(--border-soft);
+    }
+    .kp-item:last-child  { border-bottom: none; padding-bottom: 0; }
+    .kp-item:first-child { padding-top: 0; }
+
+    .kp-num {
+      flex-shrink: 0;
+      width: 18px;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--accent-1);
+      text-align: right;
+      opacity: .75;
+    }
+
+    .kp-text {
+      font-size: 13.5px;
+      color: var(--text-secondary);
+      line-height: 1.5;
+    }
+
+    /* ── Insight placeholder ── */
+    .insight-empty {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      padding: 28px 0 12px;
+      color: var(--text-muted);
+      font-size: 13px;
+      text-align: center;
+    }
+
+    /* ────────────────────────────────────
+       SECTION CARDS
+    ──────────────────────────────────── */
+    .section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
+
+    .section-name {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: .03em;
+      color: var(--text-muted);
+    }
+
+    .count-badge {
+      font-size: 10px;
+      font-weight: 700;
+      background: transparent;
+      border: 1px solid var(--border-strong);
+      border-radius: var(--r-pill);
+      padding: 2px 7px;
+      color: var(--accent-2);
+    }
+
+    .headlines-list { list-style: none; }
+
+    .hl-item {
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border-soft);
+    }
+    .hl-item:last-child  { border-bottom: none; padding-bottom: 0; }
+    .hl-item:first-child { padding-top: 0; }
+
+    .hl-link {
+      display: block;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text-primary);
+      line-height: 1.4;
+      margin-bottom: 4px;
+      transition: color .14s;
+    }
+    .hl-link:hover { color: var(--accent-1); text-decoration: none; }
+
+    .hl-meta {
+      display: flex;
+      gap: 7px;
+      align-items: center;
+      flex-wrap: wrap;
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .traction-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+      background: transparent;
+      border: 1px solid var(--border-soft);
+      border-radius: var(--r-pill);
+      padding: 1px 6px;
+      font-size: 10px;
+      color: var(--text-muted);
+    }
+
+    /* ────────────────────────────────────
+       SOURCES
+    ──────────────────────────────────── */
+    .sources-text {
+      font-size: 12px;
+      color: var(--text-muted);
+      line-height: 1.75;
+    }
+
+    /* ────────────────────────────────────
+       TOAST
+    ──────────────────────────────────── */
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%) translateY(8px);
+      background: var(--bg-2);
+      border: 1px solid var(--border-strong);
+      border-radius: var(--r-sm);
+      padding: 9px 18px;
+      font-size: 13px;
+      color: var(--text-primary);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .2s ease, transform .2s ease;
+      z-index: 99;
+      white-space: nowrap;
+    }
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
   </style>
 </head>
 <body>
   <div class="wrap">
-    <div class="card">
-      <div class="muted" id="stamp">Loading…</div>
-      <h1>Daily Growth Feed</h1>
-      <div class="muted">
-        <span class="pill">Refresh: 07:00 UTC daily</span>
-        <span class="pill">Window: last 4 hours</span>
-        <span class="pill">30 headlines</span>
+
+    <!-- ── Header ── -->
+    <div class="card header-card">
+      <div class="header-top">
+        <div>
+          <p class="header-eyebrow">Intelligence Feed</p>
+          <h1 class="page-title">Daily Growth Feed</h1>
+        </div>
+        <span class="live-pill">
+          <span class="live-dot"></span>
+          Live
+        </span>
       </div>
-      <div style="margin-top:12px;display:flex;gap:10px;flex-wrap:wrap">
-        <button onclick="location.reload()">Refresh (reload)</button>
+
+      <div class="ts-row" id="ts-row">
+        <span class="ts-chip" style="color:var(--text-muted)">Loading…</span>
+      </div>
+
+      <div class="actions">
+        <button class="btn" onclick="location.reload()">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+          Refresh
+        </button>
+        <button class="btn btn-primary" id="btn-copy" onclick="copySummary()">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          Copy summary
+        </button>
+        <button class="btn" id="btn-share" onclick="shareOrCopy()">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+          Share
+        </button>
       </div>
     </div>
 
+    <!-- ── Insight card ── -->
+    <div class="card insight-card">
+      <div class="insight-eyebrow">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="rgba(165,180,252,.55)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        <span class="label" style="color:rgba(165,180,252,.50)">Insight</span>
+      </div>
+      <div id="insight-body">
+        <div class="insight-empty">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="opacity:.18" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          Loading insight…
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Sections ── -->
     <div id="sections"></div>
 
+    <!-- ── Sources ── -->
     <div class="card">
-      <h2>Sources</h2>
-      <div class="muted" id="sources">—</div>
+      <p class="label" style="margin-bottom:8px">Sources</p>
+      <p class="sources-text" id="sources">—</p>
     </div>
+
   </div>
 
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
 <script>
-async function load(){
-  try{
-    // cache-bust to force latest daily build
-    const res = await fetch("./content.json?v=" + Date.now(), { cache: "no-store" });
-    const data = await res.json();
+// ── State ──────────────────────────────────────────────────
+let _summary = null;
 
-    document.getElementById("stamp").textContent =
-      `Built at: ${data.built_at_utc} • Next build: ${data.next_build_utc}`;
+// ── Global safety net ───────────────────────────────────────
+window.addEventListener("unhandledrejection", function(evt) {
+  console.error("[Feed] Unhandled rejection:", evt.reason);
+});
 
-    const container = document.getElementById("sections");
-    container.innerHTML = "";
+// ── Utilities ──────────────────────────────────────────────
+function fetchJSON(url) {
+  return fetch(url + "?v=" + Date.now(), { cache: "no-store" })
+    .then(function(r) {
+      if (!r.ok) throw new Error("HTTP " + r.status + " for " + url);
+      return r.json().catch(function() {
+        throw new Error("Invalid JSON from " + url);
+      });
+    });
+}
 
-    for(const section of data.sections){
-      const div = document.createElement("div");
-      div.className = "card";
-      div.innerHTML = `
-        <h2>${section.name} (${section.items.length})</h2>
-        <ol>
-          ${section.items.map(it => `
-            <li>
-              <a href="${it.url}" target="_blank" rel="noreferrer">${it.title}</a>
-              <div class="muted">${it.source} • traction: ${it.traction} • ${it.published || "—"}</div>
-            </li>
-          `).join("")}
-        </ol>
-      `;
-      container.appendChild(div);
-    }
+function esc(s) {
+  return String(s ?? "")
+    .replace(/&/g, "&amp;").replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+}
 
-    document.getElementById("sources").textContent = (data.sources || []).join(", ");
-  }catch(e){
-    document.getElementById("stamp").textContent = "Waiting for first build (content.json not found yet)";
-    document.getElementById("sources").textContent = "After GitHub Actions runs, this will populate.";
+// Format: "28 Feb 2026 — 07:00 UTC"
+function fmtUTC(str) {
+  if (!str) return "—";
+  try {
+    const d = new Date(str);
+    if (isNaN(d.getTime())) return String(str);
+    const day   = d.getUTCDate();
+    const month = d.toLocaleString("en-GB", { month: "short", timeZone: "UTC" });
+    const year  = d.getUTCFullYear();
+    const hh    = String(d.getUTCHours()).padStart(2, "0");
+    const mm    = String(d.getUTCMinutes()).padStart(2, "0");
+    return `${day} ${month} ${year} \u2014 ${hh}:${mm} UTC`;
+  } catch { return String(str); }
+}
+
+function showToast(msg, ms) {
+  const el = document.getElementById("toast");
+  if (!el) return;
+  el.textContent = msg;
+  el.classList.add("show");
+  clearTimeout(el._t);
+  el._t = setTimeout(() => el.classList.remove("show"), ms ?? 2400);
+}
+
+// ── Confidence heuristic ────────────────────────────────────
+function deriveConfidence(summary) {
+  const mood = (summary.market_mood || "").toLowerCase();
+  const risk = (summary.risk_signal || "").toLowerCase();
+  const opp  = (summary.opportunity_signal || "").toLowerCase();
+  const lowRe  = /\b(extreme|severe|major|collapse|crash|crisis|war|escalat|choking?|disruption|closure|spike|surge|retaliat)\b/;
+  const highRe = /\b(stable|recover|strong|growth|rally|upside|advantage|breakout|opportunit)\b/;
+  const isRiskOff = mood.includes("risk-off");
+  if (isRiskOff && lowRe.test(risk)) return "Low";
+  if (!isRiskOff && highRe.test(opp + " " + mood)) return "High";
+  return "Moderate";
+}
+
+// ── SVG snippets ────────────────────────────────────────────
+const SVG = {
+  mood: `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="rgba(165,180,252,.70)" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>`,
+  risk: `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="rgba(248,113,113,.65)" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>`,
+  opp:  `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="rgba(110,231,183,.65)" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>`,
+  list: `<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>`,
+  bars: `<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>`,
+  up:   `<svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>`,
+};
+
+// ── renderTimestamps ────────────────────────────────────────
+function renderTimestamps(data) {
+  const el = document.getElementById("ts-row");
+  if (!el) return;
+  try {
+    const built = fmtUTC(data.built_at_utc);
+    const next  = fmtUTC(data.next_build_utc);
+    el.innerHTML = `
+      <span class="ts-chip">Built&nbsp;<span class="val">${esc(built)}</span></span>
+      <span class="ts-chip">Next&nbsp;<span class="val">${esc(next)}</span></span>
+    `;
+  } catch (err) {
+    console.error("[Feed] renderTimestamps failed:", err);
   }
 }
-load();
+
+// ── renderInsight ───────────────────────────────────────────
+function renderInsight(summary) {
+  const el = document.getElementById("insight-body");
+  if (!el) return;
+  try {
+    _summary = summary;
+    const confidence = deriveConfidence(summary);
+    const summaries  = Array.isArray(summary.tight_summaries) ? summary.tight_summaries : [];
+
+    const points = summaries.slice(0, 10).map((t, i) => `
+      <li class="kp-item">
+        <span class="kp-num">${i + 1}</span>
+        <span class="kp-text">${esc(typeof t === "string" ? t : "")}</span>
+      </li>`).join("");
+
+    el.innerHTML = `
+      <p class="insight-theme">${esc(summary.global_theme || "")}</p>
+      <div class="thesis-bar"></div>
+      <div class="confidence-row">
+        Confidence
+        <span class="confidence-badge">${esc(confidence)}</span>
+      </div>
+
+      <div class="metrics">
+        <div class="metric">
+          <div class="metric-icon mood">${SVG.mood}</div>
+          <div class="metric-body">
+            <div class="metric-key">Market Mood</div>
+            <div class="metric-val">${esc(summary.market_mood || "—")}</div>
+          </div>
+        </div>
+        <div class="metric">
+          <div class="metric-icon risk">${SVG.risk}</div>
+          <div class="metric-body">
+            <div class="metric-key">Risk</div>
+            <div class="metric-val">${esc(summary.risk_signal || "—")}</div>
+          </div>
+        </div>
+        <div class="metric">
+          <div class="metric-icon opp">${SVG.opp}</div>
+          <div class="metric-body">
+            <div class="metric-key">Opportunity</div>
+            <div class="metric-val">${esc(summary.opportunity_signal || "—")}</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="kp-eyebrow">
+        ${SVG.list}
+        <span class="label">Key points</span>
+      </div>
+      <ol class="kp-list">${points}</ol>
+    `;
+  } catch (err) {
+    console.error("[Feed] renderInsight failed:", err);
+    renderInsightPlaceholder();
+  }
+}
+
+function renderInsightPlaceholder() {
+  const el = document.getElementById("insight-body");
+  if (!el) return;
+  el.innerHTML = `
+    <div class="insight-empty">
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="opacity:.18" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+      Insight unavailable \u2014 waiting for next build.
+    </div>
+  `;
+}
+
+// ── renderSections ──────────────────────────────────────────
+function renderSections(data) {
+  const container = document.getElementById("sections");
+  if (!container) return;
+
+  const frag     = document.createDocumentFragment();
+  const sections = Array.isArray(data.sections) ? data.sections : [];
+
+  for (const section of sections) {
+    try {
+      const items = Array.isArray(section.items) ? section.items : [];
+      const div   = document.createElement("div");
+      div.className = "card";
+      div.innerHTML = `
+        <div class="section-header">
+          <span class="section-name">
+            ${SVG.bars}
+            ${esc(section.name)}
+          </span>
+          <span class="count-badge">${items.length}</span>
+        </div>
+        <ul class="headlines-list">
+          ${items.map(it => `
+            <li class="hl-item">
+              <a class="hl-link" href="${esc(it.url || "#")}" target="_blank" rel="noreferrer">${esc(it.title)}</a>
+              <div class="hl-meta">
+                <span>${esc(it.source)}</span>
+                ${it.traction != null ? `<span class="traction-pill">${SVG.up}${esc(String(it.traction))}</span>` : ""}
+                ${it.published ? `<span>${esc(it.published)}</span>` : ""}
+              </div>
+            </li>`).join("")}
+        </ul>
+      `;
+      frag.appendChild(div);
+    } catch (err) {
+      console.error("[Feed] Failed to render section:", section?.name, err);
+    }
+  }
+
+  // Single DOM write — clear then append fragment
+  container.innerHTML = "";
+  container.appendChild(frag);
+}
+
+// ── copySummary ─────────────────────────────────────────────
+async function copySummary() {
+  if (!_summary) { showToast("Insight not loaded yet"); return; }
+  const summaries = Array.isArray(_summary.tight_summaries) ? _summary.tight_summaries : [];
+  const text = [
+    _summary.global_theme || "",
+    "",
+    ...summaries.map((t, i) => `${i + 1}. ${t}`)
+  ].join("\n");
+  try {
+    await navigator.clipboard.writeText(text);
+    showToast("\u2713 Summary copied");
+  } catch {
+    showToast("Clipboard unavailable");
+  }
+}
+
+// ── shareOrCopy ─────────────────────────────────────────────
+async function shareOrCopy() {
+  if (navigator.share) {
+    try { await navigator.share({ title: "Daily Growth Feed", url: location.href }); return; }
+    catch {}
+  }
+  try {
+    await navigator.clipboard.writeText(location.href);
+    showToast("\u2713 URL copied");
+  } catch {
+    showToast("Clipboard unavailable");
+  }
+}
+
+// ── load ────────────────────────────────────────────────────
+async function load() {
+  const [contentRes, summaryRes] = await Promise.allSettled([
+    fetchJSON("./content.json"),
+    fetchJSON("./summary.json")
+  ]);
+
+  if (contentRes.status === "fulfilled") {
+    try {
+      const data  = contentRes.value;
+      const srcEl = document.getElementById("sources");
+      renderTimestamps(data);
+      renderSections(data);
+      if (srcEl) {
+        srcEl.textContent = Array.isArray(data.sources) && data.sources.length
+          ? data.sources.join(", ")
+          : "—";
+      }
+    } catch (err) {
+      console.error("[Feed] content.json render error:", err);
+    }
+  } else {
+    console.warn("[Feed] content.json unavailable:", contentRes.reason?.message);
+    const tsEl  = document.getElementById("ts-row");
+    const srcEl = document.getElementById("sources");
+    if (tsEl)  tsEl.innerHTML = `<span class="ts-chip" style="color:var(--text-secondary)">Waiting for first build</span>`;
+    if (srcEl) srcEl.textContent = "After GitHub Actions runs, this will populate.";
+  }
+
+  if (summaryRes.status === "fulfilled") {
+    try {
+      renderInsight(summaryRes.value);
+    } catch (err) {
+      console.error("[Feed] summary.json render error:", err);
+      renderInsightPlaceholder();
+    }
+  } else {
+    console.warn("[Feed] summary.json unavailable:", summaryRes.reason?.message);
+    renderInsightPlaceholder();
+  }
+}
+
+load().catch(err => console.error("[Feed] Fatal load error:", err));
 </script>
 </body>
 </html>
